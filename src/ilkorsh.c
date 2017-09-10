@@ -57,7 +57,7 @@ static char *read_input(void)
     }
 }
 
-char **parse_arguments(char *input) {
+static char **parse_arguments(char *input) {
     unsigned int token_cnt = 0;
     size_t token_list_size = TOKEN_BUFFER_MIN;
     char *token = NULL;
@@ -124,7 +124,7 @@ char **parse_arguments(char *input) {
     return token_list;
 }
 
-void run_command(char **arguments)
+static void run_command(char **arguments)
 {
     pid_t c_pid, wait_pid;
     int status, ret;
@@ -183,7 +183,7 @@ int main (void)
     char *command;
     char **argument_list;
 
-    PRINTF("This is ilkorshell.\n");
+    printf("This is ilkorshell.\n");
 
     while (1) {
         /* The command prompt. */
