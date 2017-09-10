@@ -61,28 +61,6 @@ static char **parse_arguments(char *input) {
     unsigned int token_cnt = 0;
     size_t token_list_size = TOKEN_BUFFER_MIN;
     char *token = NULL;
-
-    /* Fantastic explanation of why I failed while trying to allocate memory with size of char from stackoverlow:
-     * ~~~~~~~~~~~~~~~~~~~~~
-     * If you are trying to allocate space for an array of pointers, such as
-     *
-     * char** my_array_of_strings;  // or some array of pointers such as int** or even void**
-     *
-     * then you will need to consider word size (8 bits in a 64-bit system, 4 bytes in a 32-bit system) when allocating space for n pointers.
-     * The size of a pointer is the same of your word size.
-     *
-     * So while you may wish to allocate space for n pointers, you are actually going to need n times 8 or 4 (for 64-bit or 32-bit systems, respectively)
-     *
-     * To avoid overflowing your allocated memory for n elements of 8 bytes:
-     *      my_array_of_strings = (char**) malloc( n * 8 );  // for 64-bit systems
-     *      my_array_of_strings = (char**) malloc( n * 4 );  // for 32-bit systems
-     *
-     * This will return a block of n pointers, each consisting of 8 bytes (or 4 bytes if you're using a 32-bit system)
-     * I have noticed that Linux will allow you to use all n pointers when you haven't compensated for word size,
-     * but when you try to free that memory it realizes its mistake and it gives out that rather nasty error.
-     * And it is a bad one, when you overflow allocated memory, many security issues lie in wait.
-     * ~~~~~~~~~~~~~~~~~~~~~
-     */
     char **token_list = malloc(token_list_size * sizeof(token));
 
     if (token_list == NULL) {
